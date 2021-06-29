@@ -291,5 +291,5 @@ def snipeit_pop(jc_machines):
 if __name__ == "__main__":
     # location_ip()
     # jcinfo()
-    meraki_info()
-    # snipeit_pop(jcinfo())
+    # meraki_info()
+    snipeit_pop(jcinfo())
