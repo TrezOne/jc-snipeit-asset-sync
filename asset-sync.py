@@ -198,10 +198,11 @@ def meraki_info():
         mer_location = ""
         mer_licexp = license_json['expirationDate']
         for single_stat in statuses:
-            if (mer_name == single_stat['name']) and (single_stat['publicIp'] != ''):
+            if (mer_name == single_stat['name'] and single_stat['publicIp'] != ''):
                 mer_location = location_ip(single_stat['publicIp'])
-            elif (mer_name == single_stat['name']) and (single_stat['publicIp'] == ''):
-                mer_location == 'Location Unknown.'
+            elif (single_stat['name'] is None and single_stat['publicIp'] is None):
+                mer_name = 'No name.'
+                mer_location = 'Location Unknown.'
             else:
                 continue
         mer_data = {
@@ -270,7 +271,9 @@ def snipeit_pop(jc_machines):
                 '_snipeit_employee_id_7': jcm['user_eid'], 
                 '_snipeit_employee_name_8': jcm['user_fn'], 
                 '_snipeit_cost_center_name_14': jcm['user_dept'],
-                '_snipeit_asset_description_10': str(f"CPU: {jcm['m_cpu']}, RAM: {jcm['m_ram']}, Storage: {jcm['m_disk']}")
+                '_snipeit_asset_description_10': str(f"CPU: {jcm['m_cpu']}, RAM: {jcm['m_ram']}, Storage: {jcm['m_disk']}"),
+                '_snipeit_site_name_12': jcm['m_location'],
+                '_snipeit_site_address_25': jcm['m_location']
             }
             create_asset = requests.post(str(sit_api + "/hardware"), data=payload, headers=sit_headers)
         else:
@@ -284,7 +287,9 @@ def snipeit_pop(jc_machines):
                 '_snipeit_employee_id_7': jcm['user_eid'], 
                 '_snipeit_employee_name_8': jcm['user_fn'], 
                 '_snipeit_cost_center_name_14': jcm['user_dept'],
-                '_snipeit_asset_description_10': str(f"CPU: {jcm['m_cpu']}, RAM: {jcm['m_ram']}, Storage: {jcm['m_disk']}")
+                '_snipeit_asset_description_10': str(f"CPU: {jcm['m_cpu']}, RAM: {jcm['m_ram']}, Storage: {jcm['m_disk']}"),
+                '_snipeit_site_name_12': jcm['m_location'],
+                '_snipeit_site_address_25': jcm['m_location']
             }
             update_asset = requests.patch(str(sit_api + "/hardware/" + asset_id), data=payload, headers=sit_headers)
 
